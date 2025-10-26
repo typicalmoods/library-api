@@ -1,4 +1,4 @@
-# Imagen base
+# Base image
 FROM python:3.13-slim
 
 # Set environment variables
@@ -7,20 +7,20 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Directorio de trabajo
 WORKDIR /app
 
-# Copiar dependencias
+# Copy dependencies
 COPY requirements.txt .
 
-# Instalar dependencias
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar el código de la API
+# Copy API code and seed.py
 COPY src ./src
+COPY seed.py .
 
-# Puerto donde correrá FastAPI
+# FastAPI port
 EXPOSE 8000
 
-# Comando por defecto para ejecutar la API
+# Default command to run the API
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

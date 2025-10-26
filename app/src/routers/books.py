@@ -1,14 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from .. import crud, schemas
-from ..dependencies import get_db
+from ..database import get_db
 
 router = APIRouter(
     prefix="/books",
     tags=["Books"]
 )
-
 
 @router.get("/", response_model=List[schemas.BookResponse])
 def get_all_books(

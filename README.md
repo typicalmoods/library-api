@@ -14,8 +14,10 @@ app/
 │   ├── models.py             # SQLAlchemy ORM models
 │   ├── schemas.py            # Pydantic schemas for validation
 │   ├── crud.py               # Database operations (CRUD)
+│   ├── seed_data.py          # Database seed data module
 │   └── routers/
 │       └── books.py          # Book-related endpoints
+├── seed.py                  # Standalone script to seed database
 ├── requirements.txt          # Python dependencies
 ├── Dockerfile               # Docker configuration
 └── .env.example             # Environment variables template
@@ -49,6 +51,11 @@ docker-compose up -d
 
 The API will be available at `http://localhost:8000`
 
+3. Seed the database with initial test data (optional):
+```bash
+docker-compose exec api python seed.py
+```
+
 ### Local Development
 
 1. Create a virtual environment:
@@ -72,6 +79,12 @@ cp app/.env.local app/.env
 ```bash
 cd app
 uvicorn src.main:app --reload
+```
+
+5. Seed the database with initial test data (optional):
+```bash
+cd app
+python seed.py
 ```
 
 ## 📚 API Endpoints
@@ -142,6 +155,28 @@ This project follows FastAPI best practices:
    - Proper HTTP status codes
    - Comprehensive error handling
    - Request/response validation
+
+## 🌱 Seed Data
+
+The project includes a seed data script to populate the database with initial test data. The script creates 15 sample books with various authors, ISBNs, prices, and stock levels.
+
+### Running the Seed Script
+
+**With Docker:**
+```bash
+docker-compose exec api python seed.py
+```
+
+**Local Development:**
+```bash
+cd app
+python seed.py
+```
+
+The script will:
+- Check if data already exists (won't duplicate data)
+- Create 15 sample books including classics from García Márquez, Cervantes, Borges, and more
+- Display a summary of created books
 
 ## 🧪 Testing
 
