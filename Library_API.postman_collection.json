@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "library-api-collection",
+		"name": "Library API",
+		"description": "API REST para gestión de librería - Complete collection for testing all endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "book_id",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Root & Health",
+			"item": [
+				{
+					"name": "Root - Welcome",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Get API welcome message and information"
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Check API health status"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get All Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books?skip=0&limit=100",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"description": "Number of records to skip (pagination)"
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Maximum number of records to return"
+								}
+							]
+						},
+						"description": "Retrieve all books with pagination support"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Books by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/search?name=Harry Potter",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Harry Potter",
+									"description": "Search by book name (partial match)"
+								}
+							]
+						},
+						"description": "Search books by name (case-insensitive partial match)"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Books by Author",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/search?author=Rowling",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"search"
+							],
+							"query": [
+								{
+									"key": "author",
+									"value": "Rowling",
+									"description": "Search by author name (partial match)"
+								}
+							]
+						},
+						"description": "Search books by author (case-insensitive partial match)"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Books by ISBN",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/search?isbn=9780439708180",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"search"
+							],
+							"query": [
+								{
+									"key": "isbn",
+									"value": "9780439708180",
+									"description": "Search by ISBN (exact match)"
+								}
+							]
+						},
+						"description": "Search books by ISBN (exact match)"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Books - Combined Filters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/search?name=Harry&author=Rowling",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Harry",
+									"description": "Search by book name"
+								},
+								{
+									"key": "author",
+									"value": "Rowling",
+									"description": "Search by author name"
+								}
+							]
+						},
+						"description": "Search books using multiple filters simultaneously"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Retrieve a specific book by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Buy Book (Decrease Stock)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/{{book_id}}/buy",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}",
+								"buy"
+							]
+						},
+						"description": "Purchase a book - decreases stock by 1. Returns error if book not found or out of stock."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Error Cases",
+			"item": [
+				{
+					"name": "Get Non-Existent Book (404)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/99999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"99999"
+							]
+						},
+						"description": "Test 404 error when book doesn't exist"
+					},
+					"response": []
+				},
+				{
+					"name": "Buy Out of Stock Book (400)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/{{book_id}}/buy",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"{{book_id}}",
+								"buy"
+							]
+						},
+						"description": "Test 400 error when trying to buy a book with 0 stock (run this after stock reaches 0)"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
